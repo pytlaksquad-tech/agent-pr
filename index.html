@@ -5,9 +5,9 @@
 </head>
 <body>
 
-<h1>🔥AI agent PR VISA 🔥</h1>
+<h1>AI Agent 🔥</h1>
 
-<textarea id="input" placeholder="Wklej kod tutaj..." rows="10" cols="50"></textarea>
+<textarea id="input" rows="10" cols="50" placeholder="Wklej kod tutaj..."></textarea>
 <br><br>
 
 <button onclick="send()">Analyze</button>
@@ -16,18 +16,25 @@
 
 <script>
 async function send() {
-    const res = await fetch("https://agent-pr.onrender.com/analyze", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            code: document.getElementById("input").value
-        })
-    });
+    const code = document.getElementById("input").value;
 
-    const data = await res.json();
-    document.getElementById("output").innerText = data.review;
+    try {
+        const res = await fetch("https://agent-pr.onrender.com/analyze", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ code: code })
+        });
+
+        const data = await res.json();
+
+        document.getElementById("output").innerText = data.review;
+
+    } catch (err) {
+        console.error(err);
+        alert("Error connecting to backend");
+    }
 }
 </script>
 
