@@ -17,7 +17,7 @@ def read_root():
 @app.post("/analyze")
 def analyze_pr(request: PRRequest):
     response = client.chat.completions.create(
-        model="gpt-4.1-mini",
+        model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": "You are a senior code reviewer."},
             {"role": "user", "content": f"Review this code:\n{request.code}"}
