@@ -13,9 +13,15 @@
             height: 150px;
         }
 
+        input {
+            width: 500px;
+            padding: 8px;
+        }
+
         button {
             padding: 10px 20px;
             cursor: pointer;
+            margin-right: 10px;
         }
 
         pre {
@@ -31,10 +37,19 @@
 
 <h1>AI Agent 🔥</h1>
 
+<h3>Code review</h3>
 <textarea id="input" placeholder="Wklej kod tutaj..."></textarea>
 <br><br>
+<button onclick="send()">Analyze Code</button>
 
-<button onclick="send()">Analyze</button>
+<br><br><hr><br>
+
+<h3>Google Drive folder chat</h3>
+<input id="folder" placeholder="Google Drive Folder ID">
+<br><br>
+<input id="question" placeholder="Zadaj pytanie o pliki...">
+<br><br>
+<button onclick="ask()">Ask Folder</button>
 
 <pre id="output">Wynik pojawi się tutaj...</pre>
 
@@ -56,13 +71,35 @@ async function send() {
         });
 
         const data = await res.json();
-
-        console.log("API:", data);
-
         document.getElementById("output").innerText = data.review;
 
     } catch (err) {
-        console.error(err);
+        document.getElementById("output").innerText = "ERROR: " + err.message;
+    }
+}
+
+async function ask() {
+    const folder = document.getElementById("folder").value;
+    const question = document.getElementById("question").value;
+
+    document.getElementById("output").innerText = "Loading AI...";
+
+    try {
+        const res = await fetch("https://agent-pr.onrender.com/chat-folder", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                folder_id: folder,
+                question: question
+            })
+        });
+
+        const data = await res.json();
+        document.getElementById("output").innerText = data.answer;
+
+    } catch (err) {
         document.getElementById("output").innerText = "ERROR: " + err.message;
     }
 }
