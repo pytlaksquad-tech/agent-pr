@@ -2,21 +2,47 @@
 <html>
 <head>
     <title>AI Agent</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 40px;
+        }
+
+        textarea {
+            width: 500px;
+            height: 150px;
+        }
+
+        button {
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        pre {
+            background: #111;
+            color: #0f0;
+            padding: 15px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
+    </style>
 </head>
 <body>
 
 <h1>AI Agent 🔥</h1>
 
-<textarea id="input" rows="10" cols="50" placeholder="Wklej kod tutaj..."></textarea>
+<textarea id="input" placeholder="Wklej kod tutaj..."></textarea>
 <br><br>
 
 <button onclick="send()">Analyze</button>
 
-<pre id="output"></pre>
+<pre id="output">Wynik pojawi się tutaj...</pre>
 
 <script>
 async function send() {
     const code = document.getElementById("input").value;
+
+    document.getElementById("output").innerText = "Loading...";
 
     try {
         const res = await fetch("https://agent-pr.onrender.com/analyze", {
@@ -24,16 +50,20 @@ async function send() {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ code: code })
+            body: JSON.stringify({
+                code: code
+            })
         });
 
         const data = await res.json();
+
+        console.log("API:", data);
 
         document.getElementById("output").innerText = data.review;
 
     } catch (err) {
         console.error(err);
-        alert("Error connecting to backend");
+        document.getElementById("output").innerText = "ERROR: " + err.message;
     }
 }
 </script>
