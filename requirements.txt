@@ -1,4 +1,5 @@
 fastapi
 uvicorn
 openai
-pydantic
+google-api-python-client
+google-auth
