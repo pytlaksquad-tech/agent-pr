@@ -37,6 +37,8 @@
 
 <h1>AI Agent 🔥</h1>
 
+<!-- ================= CODE REVIEW ================= -->
+
 <h3>Code review</h3>
 <textarea id="input" placeholder="Wklej kod tutaj..."></textarea>
 <br><br>
@@ -44,16 +46,26 @@
 
 <br><br><hr><br>
 
+<!-- ================= GOOGLE DRIVE ================= -->
+
 <h3>Google Drive folder chat</h3>
+
 <input id="folder" placeholder="Google Drive Folder ID">
 <br><br>
+
 <input id="question" placeholder="Zadaj pytanie o pliki...">
 <br><br>
+
 <button onclick="ask()">Ask Folder</button>
+
+<!-- ================= OUTPUT ================= -->
 
 <pre id="output">Wynik pojawi się tutaj...</pre>
 
+<!-- ================= SCRIPT ================= -->
+
 <script>
+
 async function send() {
     const code = document.getElementById("input").value;
 
@@ -71,12 +83,17 @@ async function send() {
         });
 
         const data = await res.json();
-        document.getElementById("output").innerText = data.review;
+
+        console.log("ANALYZE:", data);
+
+        document.getElementById("output").innerText =
+            data.review || JSON.stringify(data, null, 2);
 
     } catch (err) {
         document.getElementById("output").innerText = "ERROR: " + err.message;
     }
 }
+
 
 async function ask() {
     const folder = document.getElementById("folder").value;
@@ -97,12 +114,17 @@ async function ask() {
         });
 
         const data = await res.json();
-        document.getElementById("output").innerText = data.answer;
+
+        console.log("FOLDER:", data);
+
+        document.getElementById("output").innerText =
+            data.answer || data.review || JSON.stringify(data, null, 2);
 
     } catch (err) {
         document.getElementById("output").innerText = "ERROR: " + err.message;
     }
 }
+
 </script>
 
 </body>
